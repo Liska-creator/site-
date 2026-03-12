@@ -5,8 +5,21 @@ const films = [
         img: "https://m.media-amazon.com/images/M/MV5BZmQzMTMwOTItYjUyMS00NDY4LThmOWEtZjE3ODkyMzg3MDdlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         items: [
             { id: "avatar4", name: "Avatar Server 5", img: "https://picsum.photos/300/200?11" },
-            { id: "avatar5", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
-            { id: "avatar6", name: "Avatar Server 8", img: "https://picsum.photos/300/200?12" }
+            { id: "avatar51", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar52", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar53", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar54", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar55", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar56", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar57", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar58", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar59", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar50", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar60", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar15", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar25", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar35", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar46", name: "Avatar Server 8", img: "https://picsum.photos/300/200?12" }
         ]
     },
     {
@@ -52,6 +65,7 @@ const films = [
     }
 
 ];
+
 
 
 
