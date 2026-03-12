@@ -1,5 +1,15 @@
 const films = [
     {
+         id: "film53",
+        name: "Avata5r5555",
+        img: "https://m.media-amazon.com/images/M/MV5BZmQzMTMwOTItYjUyMS00NDY4LThmOWEtZjE3ODkyMzg3MDdlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        items: [
+            { id: "avatar4", name: "Avatar Server 5", img: "https://picsum.photos/300/200?11" },
+            { id: "avatar5", name: "Avatar Server 7", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar6", name: "Avatar Server 8", img: "https://picsum.photos/300/200?12" }
+        ]
+    },
+    {
          id: "film5",
         name: "Avata5r5555",
         img: "https://m.media-amazon.com/images/M/MV5BZmQzMTMwOTItYjUyMS00NDY4LThmOWEtZjE3ODkyMzg3MDdlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
@@ -42,6 +52,7 @@ const films = [
     }
 
 ];
+
 
 
 
