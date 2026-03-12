@@ -15,7 +15,8 @@ const films = [
         img: "https://m.media-amazon.com/images/M/MV5BZmQzMTMwOTItYjUyMS00NDY4LThmOWEtZjE3ODkyMzg3MDdlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         items: [
             { id: "avatar1", name: "Avatar Server 1", img: "https://picsum.photos/300/200?11" },
-            { id: "avatar2", name: "Avatar Server 2", img: "https://picsum.photos/300/200?12" }
+            { id: "avatar2", name: "Avatar Server 2", img: "https://picsum.photos/300/200?12" },
+            { id: "avatar6", name: "Avatar Server 8", img: "https://picsum.photos/300/200?12" }
         ]
     },
     {
@@ -41,5 +42,6 @@ const films = [
     }
 
 ];
+
 
 
