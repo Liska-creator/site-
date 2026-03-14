@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPA Boxes Menu</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial;
+        background: #1a1a1a;
+        padding: 80px 0 0 0;
+        color: white;
+      }
+
+      .navbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background: #1a1a1a;
+        border-bottom: 2px solid #444;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+      }
+
+      .nav-left {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .nav-link {
+        color: white;
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .nav-link:hover {
+        background: #333;
+      }
+
+      .main-content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px;
+        justify-content: center;
+      }
+
+      .box,
+      .openedPageBox {
+        background: #2a2a2a;
+        border-radius: 8px;
+        overflow: hidden;
+        flex: 1 1 300px;
+        max-width: 320px;
+        min-width: 200px;
+        display: flex;
+        flex-direction: column;
+        height: 220px;
+        position: relative;
+      }
+
+      .box {
+        cursor: pointer;
+      }
+
+      .box-name,
+      .openedPageBoxName {
+        padding: 8px 10px;
+        text-align: center;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        background: #2a2a2a;
+        z-index: 1;
+      }
+
+      .box img,
+      .openedPageBox img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .openedPage {
+        width: 100%;
+      }
+
+      .openedPageName {
+        font-size: 30px;
+        padding-bottom: 20px;
+        text-align: center;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #444;
+      }
+
+      .openedPageCont {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        max-height: calc(100vh - 200px);
+        padding: 20px;
+        justify-content: center;
+      }
+
+      .openedPageBoxLink {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 5px;
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      .openedPageBoxLink a {
+        color: red;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .parentTitle {
+        width: 100%;
+        font-size: 26px;
+        margin-top: 30px;
+        border-left: 4px solid #444;
+        padding-left: 10px;
+        border-top: 4px solid #444;
+      }
+
+      @media (max-width: 1024px) {
+        .box,
+        .openedPageBox {
+          flex: 1 1 45%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .box,
+        .openedPageBox {
+          flex: 1 1 48%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .box,
+        .openedPageBox {
+          flex: 1 1 95%;
+        }
+        .openedPageName {
+          font-size: 24px;
+        }
+        .main-content {
+          padding: 10px;
+          gap: 15px;
+        }
+        .nav-left {
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="nav-left">
+        <a class="nav-link" onclick="showAll()">All</a>
+        <a class="nav-link" onclick="showFilms()">Models</a>
+        <a class="nav-link" onclick="showLive()">Live Models</a>
+      </div>
+    </nav>
+
+    <main class="main-content" id="content"></main>
+
+    <script src="films.js"></script>
+    <script src="live.js"></script>
+
+    <script>
+      /* FILMS */
+      function showFilms() {
+        renderBoxes(films);
+      }
+
+      /* LIVE */
+      function showLive() {
+        renderBoxes(live);
+      }
+
+      /* BOX RENDER */
+      function renderBoxes(data) {
+        let html = "";
+        data.forEach((box) => {
+          html += `
+<a class="box" onclick="openBox('${box.id}')">
+<div class="box-name">${box.name}</div>
+<img src="${box.img}">
+</a>
+`;
+        });
+        document.getElementById("content").innerHTML = html;
+      }
+
+      /* OPEN PARENT */
+      function openBox(id) {
+        let item =
+          films.find((b) => b.id === id) || live.find((b) => b.id === id);
+        if (!item) return;
+        let subItems = item.items || [];
+        let subHtml = "";
+        subItems.forEach((sub) => {
+          subHtml += `
+<div class="openedPageBox">
+<div class="openedPageBoxName">${sub.name}</div>
+<img src="${sub.img}">
+<div class="openedPageBoxLink">
+<a href="${sub.link1 || "#"}">1</a>
+<a href="${sub.link2 || "#"}">2</a>
+<a href="${sub.link3 || "#"}">3</a>
+</div>
+</div>
+`;
+        });
+        document.getElementById("content").innerHTML = `
+<div class="openedPage">
+<div class="openedPageName">${item.name}</div>
+<div class="openedPageCont">${subHtml}</div>
+</div>
+`;
+      }
+
+      /* ALL PAGE */
+      function showAll() {
+        let html = `
+<div class="openedPage">
+<div class="openedPageCont">
+`;
+        function renderParent(parent) {
+          html += `<div class="parentTitle">${parent.name}</div>`;
+          if (parent.items) {
+            parent.items.forEach((sub) => {
+              html += `
+<div class="openedPageBox">
+<div class="openedPageBoxName">${sub.name}</div>
+<img src="${sub.img}">
+<div class="openedPageBoxLink">
+<a href="${sub.link1 || "#"}">1</a>
+<a href="${sub.link2 || "#"}">2</a>
+<a href="${sub.link3 || "#"}">3</a>
+</div>
+</div>
+`;
+            });
+          }
+        }
+        /* მხოლოდ FILMS და LIVE */
+        films.forEach(renderParent);
+        live.forEach(renderParent);
+        html += `</div></div>`;
+        document.getElementById("content").innerHTML = html;
+      }
+
+      /* DEFAULT PAGE */
+      showAll();
+    </script>
+  </body>
+</html>
