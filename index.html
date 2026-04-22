@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPA Boxes Menu</title>
+
+    <style>
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Arial;
+        background: #1a1a1a;
+        padding: 80px 0 0 0;
+        color: white;
+      }
+
+      .navbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background: #1a1a1a;
+        border-bottom: 2px solid #444;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+      }
+
+      .nav-left {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .nav-link {
+        color: white;
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .nav-link:hover { background: #333; }
+
+      .main-content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px;
+        justify-content: center;
+      }
+
+      .box, .openedPageBox {
+        background: #2a2a2a;
+        border-radius: 8px;
+        overflow: hidden;
+        flex: 1 1 300px;
+        max-width: 320px;
+        min-width: 200px;
+        display: flex;
+        flex-direction: column;
+        height: 320px;
+        position: relative;
+        text-decoration: none;
+      }
+
+      .box { cursor: pointer; }
+
+      .box-name, .openedPageBoxName {
+        padding: 8px 10px;
+        text-align: center;
+        background: #2a2a2a;
+        color: #fff;
+      }
+
+      .box img, .openedPageBox img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .openedPageName {
+        font-size: 30px;
+        padding-bottom: 20px;
+        text-align: center;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #444;
+      }
+
+      .openedPageCont {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        max-height: calc(100vh - 200px);
+        padding: 20px;
+        justify-content: center;
+      }
+
+      .openedPageBoxLink {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 5px;
+        background: rgba(0,0,0,0.5);
+      }
+
+      .openedPageBoxLink a {
+        color: red;
+        text-decoration: none;
+        display: block;
+      }
+
+      .parentTitle {
+        width: 100%;
+        font-size: 26px;
+        margin-top: 30px;
+        border-left: 4px solid #444;
+        padding-left: 10px;
+        border-top: 4px solid #444;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <nav class="navbar">
+      <div class="nav-left">
+        <a class="nav-link" onclick="showAll()">All</a>
+        <a class="nav-link" onclick="showVidModels()">Models</a>
+        <a class="nav-link" onclick="showLiveModels()">Live Models</a>
+        <a class="nav-link" onclick="showMovies()">Movies</a>
+        <a class="nav-link" onclick="showMoviesActress()">Actress</a>
+        <a class="nav-link" onclick="showLinks()">Links</a>
+      </div>
+    </nav>
+
+    <main class="main-content" id="content"></main>
+
+    <script src="vidModels.js"></script>
+    <script src="liveModels.js"></script>
+    <script src="moviesActress.js"></script>
+    <script src="webLinks.js"></script>
+
+    <script>
+      function showVidModels() { renderBoxes(vidModels); }
+      function showLiveModels() { renderBoxes(liveModels); }
+      function showMoviesActress() { renderBoxes(moviesActress); }
+
+      function renderBoxes(data) {
+        let html = "";
+        data.forEach((box) => {
+          html += `
+<a class="box" href="?box=${box.id}">
+  <div class="box-name">${box.name}</div>
+  <img src="${box.img}">
+</a>`;
+        });
+        document.getElementById("content").innerHTML = html;
+      }
+
+      document.addEventListener("click", function (e) {
+        const link = e.target.closest("a.box");
+        if (!link) return;
+        if (e.ctrlKey || e.metaKey || e.button === 1) return;
+
+        e.preventDefault();
+        const url = new URL(link.href);
+        const id = url.searchParams.get("box");
+        openBox(id);
+      });
+
+      function openBox(id) {
+        let item =
+          vidModels.find(b => b.id === id) ||
+          liveModels.find(b => b.id === id) ||
+          moviesActress.find(b => b.id === id);
+
+        if (!item) return;
+
+        let subHtml = "";
+        (item.items || []).forEach((sub) => {
+          subHtml += `
+<div class="openedPageBox">
+  <div class="openedPageBoxName">${sub.name}</div>
+  <img src="${sub.img}">
+  <div class="openedPageBoxLink">
+    <a href="${sub.link1 || "#"}" target="_blank">1</a>
+    <a href="${sub.link2 || "#"}" target="_blank">2</a>
+    <a href="${sub.link3 || "#"}" target="_blank">3</a>
+  </div>
+</div>`;
+        });
+
+        document.getElementById("content").innerHTML = `
+<div class="openedPage">
+  <div class="openedPageName">${item.name}</div>
+  <div class="openedPageCont">${subHtml}</div>
+</div>`;
+      }
+
+      function showAll() {
+        let html = `<div class="openedPage"><div class="openedPageCont">`;
+
+        function renderParent(parent) {
+          html += `<div class="parentTitle">${parent.name}</div>`;
+          (parent.items || []).forEach((sub) => {
+            html += `
+<div class="openedPageBox">
+  <div class="openedPageBoxName">${sub.name}</div>
+  <img src="${sub.img}">
+  <div class="openedPageBoxLink">
+    <a href="${sub.link1 || "#"}" target="_blank">1</a>
+    <a href="${sub.link2 || "#"}" target="_blank">2</a>
+    <a href="${sub.link3 || "#"}" target="_blank">3</a>
+  </div>
+</div>`;
+          });
+        }
+
+        vidModels.forEach(renderParent);
+        liveModels.forEach(renderParent);
+
+        html += `</div></div>`;
+        document.getElementById("content").innerHTML = html;
+      }
+
+      function showMovies() {
+        let html = `<div class="openedPage"><div class="openedPageCont">`;
+
+        function renderParent(parent) {
+          html += `<div class="parentTitle">${parent.name}</div>`;
+          (parent.items || []).forEach((sub) => {
+            html += `
+<div class="openedPageBox">
+  <div class="openedPageBoxName">${sub.name}</div>
+  <img src="${sub.img}">
+  <div class="openedPageBoxLink">
+    <a href="${sub.link1 || "#"}" target="_blank">1</a>
+    <a href="${sub.link2 || "#"}" target="_blank">2</a>
+    <a href="${sub.link3 || "#"}" target="_blank">3</a>
+  </div>
+</div>`;
+          });
+        }
+
+        moviesActress.forEach(renderParent);
+
+        html += `</div></div>`;
+        document.getElementById("content").innerHTML = html;
+      }
+
+      /* ✅ LINKS PAGE */
+      function showLinks() {
+        let html = `
+<div class="openedPage">
+  <div class="openedPageName">Links</div>
+  <div class="openedPageCont">`;
+
+        links.forEach((link) => {
+          html += `
+<div class="openedPageBox" style="height:150px;justify-content:center;align-items:center;">
+  <div class="openedPageBoxName">${link.name}</div>
+  <div class="openedPageBoxLink" style="position:static;">
+    <a href="${link.url}" target="_blank">Open</a>
+  </div>
+</div>`;
+        });
+
+        html += `</div></div>`;
+        document.getElementById("content").innerHTML = html;
+      }
+
+      window.addEventListener("load", () => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("box");
+
+        if (id) openBox(id);
+        else showAll();
+      });
+    </script>
+  </body>
+</html>
