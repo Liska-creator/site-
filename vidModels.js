@@ -448,8 +448,8 @@ const vidModels = [
         img: "https://xxx-photos.ladys.one/porn-lil-candy-bio-433320.webp",
         items: [
             {
-                id: "Lil Candy", name: "", img: "",
-                link1: "",
+                id: "Lil Candy", name: "Lil Candy - Recopilación De Sexo Con Una Pequeña Chica De 18 Años", img: "https://img1.xnostars.com/thumbs/400x300/tube-59061.jpg",
+                link1: "https://es.eporner.com/video-3MDxcppzIIT/lil-candy-petite-18yo-girl-sex-compilation/",
                 link2: "",
                 link3: "",
             }
